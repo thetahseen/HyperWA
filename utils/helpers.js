@@ -1,5 +1,5 @@
 
-const logger = require('../core/logger');
+const logger = require('../Core/logger');
 const config = require('../config');
 
 class Helpers {

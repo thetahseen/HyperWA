@@ -1,14 +1,18 @@
-const { NexusWA } = require('./core/bot');
-const logger = require('./core/logger');
+const { HyperWaBot } = require('./Core/bot');
+const logger = require('./Core/logger');
+const config = require('./config');
+global.crypto = require('crypto');
 
 async function main() {
     try {
-        logger.info('🚀 Starting HyperWA...');
+        logger.info('🚀 Starting HyperWa Userbot...');
+        logger.info(`🎯 Version: ${config.get('bot.version')}`);
+        logger.info(`🏢 Company: ${config.get('bot.company')}`);
         
-        const bot = new NexusWA();
+        const bot = new HyperWaBot();
         await bot.initialize();
         
-        // Graceful shutdown
+        // Graceful shutdown handlers
         process.on('SIGINT', async () => {
             logger.info('🛑 Received SIGINT, shutting down gracefully...');
             await bot.shutdown();
@@ -21,21 +25,38 @@ async function main() {
             process.exit(0);
         });
 
-    } catch (err) {
-        logger.error("💥 Failed to start NexusWA:", err);
-        console.error(err);
+        process.on('uncaughtException', (error) => {
+            logger.error('💥 Uncaught Exception:', error);
+            process.exit(1);
+        });
+
+        process.on('unhandledRejection', (reason, promise) => {
+            logger.error('💥 Unhandled Rejection at:', promise, 'reason:', reason);
+            process.exit(1);
+        });
+
+    } catch (error) {
+        logger.error('💥 Failed to start HyperWa Userbot:', error);
+        process.exit(1);
     }
 }
 
-// Global error handlers
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('💥 Unhandled Rejection at:', promise, 'reason:', reason);
-    // Don't exit the process, just log the error
-});
-
-process.on('uncaughtException', (error) => {
-    console.error('💥 Uncaught Exception:', error);
-    // Don't exit the process, just log the error
-});
+// Display startup banner
+console.log(`
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║    ██╗  ██╗██╗   ██╗██████╗ ███████╗██████╗ ██╗    ██╗ █████╗ ║
+║    ██║  ██║╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██║    ██║██╔══██╗║
+║    ███████║ ╚████╔╝ ██████╔╝█████╗  ██████╔╝██║ █╗ ██║███████║║
+║    ██╔══██║  ╚██╔╝  ██╔═══╝ ██╔══╝  ██╔══██╗██║███╗██║██╔══██║║
+║    ██║  ██║   ██║   ██║     ███████╗██║  ██║╚███╔███╔╝██║  ██║║
+║    ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝║
+║                                                              ║
+║                    Advanced WhatsApp Userbot                ║
+║                      Version 3.0.0                          ║
+║                  Dawium Technologies                        ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+`);
 
 main();
