@@ -179,6 +179,25 @@ class TelegramBridge {
         }
     }
 
+    async saveMappingsToDb() {
+        if (!this.collection) {
+            throw new Error('Database collection not initialized');
+        }
+        // Save chat mappings
+        for (const [whatsappJid, telegramTopicId] of this.chatMappings.entries()) {
+            await this.saveChatMapping(whatsappJid, telegramTopicId);
+        }
+        // Save user mappings
+        for (const [whatsappId, userData] of this.userMappings.entries()) {
+            await this.saveUserMapping(whatsappId, userData);
+        }
+        // Save contact mappings
+        for (const [phone, name] of this.contactMappings.entries()) {
+            await this.saveContactMapping(phone, name);
+        }
+    }
+
+    
     async saveContactMapping(phone, name) {
         try {
             await this.collection.updateOne(
