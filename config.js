@@ -23,7 +23,7 @@ class Config {
             },
             mongo: {
                 uri: 'mongodb+srv://itxelijah07:ivp8FYGsbVfjQOkj@cluster0.wh25x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-                dbName: 'help'
+                dbName: 'hep'
             },
             apis: {
                 ninjas: 'YOUR_API_KEY',
