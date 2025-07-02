@@ -1,4 +1,3 @@
-
 const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs-extra');
@@ -245,28 +244,29 @@ class HyperWaBot {
         });
     }
 
-    async onConnectionOpen() {
-        logger.info(`✅ Connected to WhatsApp! User: ${this.sock.user?.id || 'Unknown'}`);
-        
-        // Set owner if not set
-        if (!config.get('bot.owner') && this.sock.user) {
-            config.set('bot.owner', this.sock.user.id);
-            logger.info(`👑 Owner set to: ${this.sock.user.id}`);
-        }
-
-        // Setup WhatsApp handlers for Telegram bridge
-        if (this.telegramBridge) {
-            await this.telegramBridge.setupWhatsAppHandlers();
-        }
-
-        // Send startup message to owner and Telegram
-        await this.sendStartupMessage();
-        
-        // Notify Telegram bridge of connection
-        if (this.telegramBridge) {
-            await this.telegramBridge.syncWhatsAppConnection();
-        }
+async onConnectionOpen() {
+    logger.info(`✅ Connected to WhatsApp! User: ${this.sock.user?.id || 'Unknown'}`);
+    
+    // Set owner if not set
+    if (!config.get('bot.owner') && this.sock.user) {
+        config.set('bot.owner', this.sock.user.id);
+        logger.info(`👑 Owner set to: ${this.sock.user.id}`);
     }
+
+    // Setup WhatsApp handlers and sync contacts for Telegram bridge
+    if (this.telegramBridge) {
+        await this.telegramBridge.setupWhatsAppHandlers();
+        await this.telegramBridge.syncContacts(); // Added contact sync on connection
+    }
+
+    // Send startup message to owner and Telegram
+    await this.sendStartupMessage();
+    
+    // Notify Telegram bridge of connection
+    if (this.telegramBridge) {
+        await this.telegramBridge.syncWhatsAppConnection();
+    }
+}
 
     async sendStartupMessage() {
         const owner = config.get('bot.owner');

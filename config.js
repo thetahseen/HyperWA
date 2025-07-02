@@ -10,12 +10,16 @@ class Config {
                 owner: '923298784489@s.whatsapp.net',
                 clearAuthOnStart: false
             },
+            // Feature toggles and configurations
             features: {
-                mode: 'public',
-                autoViewStatus: true,
-                customModules: true,
-                rateLimiting: true,
-                telegramBridge: true
+                mode: 'public', // Bot mode: 'public' or 'private'
+                autoViewStatus: true, // Automatically view WhatsApp status updates
+                customModules: true, // Enable loading of custom modules
+                rateLimiting: true, // Enable command rate limiting
+                telegramBridge: true, // Enable Telegram bridge integration
+                smartProcessing: true, // Enable smart message processing
+                editMessages: true, // Allow editing of sent messages
+                autoReact: true // Auto react to commands
             },
             mongo: {
                 uri: 'mongodb+srv://itxelijah07:ivp8FYGsbVfjQOkj@cluster0.wh25x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
