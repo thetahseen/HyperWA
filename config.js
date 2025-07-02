@@ -19,7 +19,7 @@ class Config {
             },
             mongo: {
                 uri: 'mongodb+srv://itxelijah07:ivp8FYGsbVfjQOkj@cluster0.wh25x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-                dbName: 'advancedwa'
+                dbName: 'help'
             },
             apis: {
                 ninjas: 'YOUR_API_KEY',
@@ -34,8 +34,8 @@ class Config {
             },
             telegram: {
                 enabled: true,
-                botToken: '7580382614:AAH30PW6TFmgRzbC7HUXIHQ35GpndbJOIEI',
-                chatId: '-1002287300661',
+                botToken: '6817290645:AAGHqXG76oU0fZe0pBqySe01VoJ39k75lUk',
+                chatId: '-1002680228642',
                 adminIds: [7580382614],
                 sudoUsers: [7580382614],
                 features: {
